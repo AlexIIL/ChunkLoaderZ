@@ -38,6 +38,8 @@ public class BlockChunkLoader extends Block {
 		stateMap.put(0, getDefaultState());
         stateMap.put(1, getDefaultState().withProperty(STATUS, EnumStatus.HIDDEN));
         stateMap.put(2, getDefaultState().withProperty(STATUS, EnumStatus.MASTER));
+		setHardness(2.5f);
+		setResistance(2.5f);
 	}
 
 	@Override
@@ -69,10 +71,9 @@ public class BlockChunkLoader extends Block {
         world.setBlockState(pos, getDefaultState().withProperty(STATUS, EnumStatus.MASTER));
     }
 
-//	@Override
-//	public boolean isFullCube() {
-//		return false;
-//	}
+	public boolean isAlone(World world, BlockPos pos) {
+		return getActualState(getDefaultState(), world, pos).getProperties().get(STATUS).equals(EnumStatus.ALONE);
+	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -84,12 +85,6 @@ public class BlockChunkLoader extends Block {
 	@Override
 	public boolean isOpaqueCube() {
 		return false;
-	}
-
-	@Override
-	public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
-		super.breakBlock(worldIn, pos, state);
-		worldIn.removeTileEntity(pos);
 	}
 
 	@Override
